@@ -40,7 +40,7 @@ try {
     $mail->setFrom('ney759@gmail.com', 'rooney');
     $mail->addAddress($email, $name);     
     $mail->addAddress($email, $name);     
-    $mail->addCC('rooney.zakko@gmail.com');
+    $mail->addCC('ney759@gmail.com');
 
    
     //Attachments
