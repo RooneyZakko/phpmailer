@@ -13,6 +13,10 @@ use Monolog\Handler\StreamHandler;
 //Load Composer's autoloader
 require '../vendor/autoload.php';
 
+// $dotenv = Dotenv\Dotenv::createImmutable('./');
+$dotenv = Dotenv\Dotenv::createImmutable( __DIR__ . '/');
+$dotenv->load();
+
 //Create an instance; passing `true` enables exceptions
 $mail = new PHPMailer(true);
 
@@ -29,12 +33,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 try {
     //Server settings
     $mail->isSMTP();                                            //Send using SMTP
-    $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
+    $mail->Host       = $_ENV['SMTP_HOST'] ;                     //Set the SMTP server to send through
     $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-    $mail->Username   = 'neym759@gmail.com';                     //SMTP username
-    $mail->Password   = 'bmkb npxb vmst nidk';                               //SMTP password
+    $mail->Username   = $_ENV['SMTP_USERNAME'];                     //SMTP username
+    $mail->Password   = $_ENV['SMTP_PASSWORD'];                               //SMTP password
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
-    $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+    $mail->Port       = $_ENV['SMTP_PORT'];                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+
+
 
     //Recipients
     $mail->setFrom('ney759@gmail.com', 'rooney');
@@ -62,17 +68,4 @@ try {
 }
 
 }
-// if ($_SERVER["REQUEST_METHOD"] == "POST") {
-//     if (isset($_POST['name']) && isset($_POST['email'])) {
-//         $name = $_POST['name'];
-//         $email = $_POST['email'];
-
-//         echo "<html><head><title>Klacht Verwerking</title></head><body>";
-//         echo "<h2>Uw klacht is in behandeling</h2>";
-//         echo "<p><strong>Name:</strong> $name</p>";
-//         echo "<p><strong>Email:</strong> $email</p>";
-//         echo "</body></html>";
-//     } else {
-//         echo "<p>Er is een fout opgetreden.</p>";
-//     }
-// }
+?>
